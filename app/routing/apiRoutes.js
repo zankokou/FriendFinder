@@ -1,20 +1,24 @@
 var path = require("path");
+var friendList = require('../data/friends.js')
 
 // routes
 module.exports = function apiRoutes(app) {
 
     app.get("/api/friends", function (req, res) {
-        return res.json("api Friends List");
+        return res.json(friendList);
 
-        // res.sendFile(path.join(__dirname, "/../public/survey.html"));
+   
     });
 
 
     // post link
     app.post("/api/friends", function (req, res) {
-        res.sendFile(path.join(__dirname, "/../public/home.html"));
+        var newFriend = req.body;
+        console.log(newFriend);
+        
     });
 
 
 
 };
+

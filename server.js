@@ -4,9 +4,12 @@ const bodyParser = require('body-parser');
 var path = require("path");
 
 // require route files
-// require("./app/routing/apiRoutes.js")(app);
 var htmlPath = require("./app/routing/htmlRoutes.js");
 var apiPath = require("./app/routing/apiRoutes.js")
+
+// require friendList 
+var friendList = require('./app/data/friends.js')
+
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -16,6 +19,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.post("/api/friends", function (req, res) {
+    var newFriend = req.body;
+    console.log(newFriend);
+    friendList.push(newFriend);
+    res.json(newFriend);
+});
 
 
 
