@@ -20,11 +20,36 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.post("/api/friends", function (req, res) {
-    var newFriend = req.body;
-    console.log(newFriend);
-    friendList.push(newFriend);
-    res.json(newFriend);
-});
+        // Initialize array to hold comparison results
+        var smallest = 10000000;
+        var bestie;
+
+        //For loop through each friend in friendList
+        for (var i = 0; i < friendList.length; i++) {
+            // Array to total the differences in scores for potential matches
+            var compArray = [];
+
+            for (var j = 0; j < friendList[i].scores.length; j++) {
+                compArray.push(Math.abs(friendList[i].scores[j] - req.body.scores[j]));
+
+            }
+            var matchScore = compArray.reduce((a, b) => a + b, 0);
+
+            if (matchScore < smallest) {
+                smallest = matchScore;
+                bestie = friendList[i];
+            }
+        }
+
+        // Return best match to client
+        res.json(bestie);
+
+        // Add current user to friendList
+        friendList.push(req.body);
+
+    });
+
+// });
 
 
 

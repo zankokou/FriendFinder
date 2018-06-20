@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>FriendFinder - Pokemon Themed</title>
+  <title>FriendFinder</title>
 
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -40,7 +40,7 @@
     <h3>
       <strong>Question 1</strong>
     </h3>
-    <h4>Your mind is always buzzing with unexplored ideas and plans.</h4>
+    <h4>Yoo have red rosy cheeks.</h4>
     <select class="chosen-select" id="q1">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -53,7 +53,7 @@
     <h3>
       <strong>Question 2</strong>
     </h3>
-    <h4>Generally speaking, you rely more on your experience than your imagination.</h4>
+    <h4>Generally speaking, you like to be around fire.</h4>
     <select class="chosen-select" id="q2">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -67,7 +67,7 @@
     <h3>
       <strong>Question 3</strong>
     </h3>
-    <h4>You find it easy to stay relaxed and focused even when there is some pressure.</h4>
+    <h4>You find it easy to stay cool in water.</h4>
     <select class="chosen-select" id="q3">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -81,7 +81,7 @@
     <h3>
       <strong>Question 4</strong>
     </h3>
-    <h4>You rarely do something just out of sheer curiosity.</h4>
+    <h4>You rarely do something without a pokemon</h4>
     <select class="chosen-select" id="q4">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -95,7 +95,7 @@
     <h3>
       <strong>Question 5</strong>
     </h3>
-    <h4>People can rarely upset you.</h4>
+    <h4>Pizza is your top 10 food items.</h4>
     <select class="chosen-select" id="q5">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -109,7 +109,7 @@
     <h3>
       <strong>Question 6</strong>
     </h3>
-    <h4>It is often difficult for you to relate to other people’s feelings.</h4>
+    <h4>When you make eye contact, you go into a Pokemon battle.</h4>
     <select class="chosen-select" id="q6">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -123,7 +123,7 @@
     <h3>
       <strong>Question 7</strong>
     </h3>
-    <h4>In a discussion, truth should be more important than people’s sensitivities.</h4>
+    <h4>You like starter pokemon.</h4>
     <select class="chosen-select" id="q7">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -136,7 +136,7 @@
     <h3>
       <strong>Question 8</strong>
     </h3>
-    <h4>You rarely get carried away by fantasies and ideas.</h4>
+    <h4>Evolution stones are trash.</h4>
     <select class="chosen-select" id="q8">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -149,7 +149,7 @@
     <h3>
       <strong>Question 9</strong>
     </h3>
-    <h4>You think that everyone’s views should be respected regardless of whether they are supported by facts or not.</h4>
+    <h4>You have a niche for flying through the sky.</h4>
     <select class="chosen-select" id="q9">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -162,7 +162,7 @@
     <h3>
       <strong>Question 10</strong>
     </h3>
-    <h4>You feel more energetic after spending time with a group of people.</h4>
+    <h4>You feel more energetic after a good nap.</h4>
     <select class="chosen-select" id="q10">
       <option value=""></option>
       <option value="1">1 (Strongly Disagree)</option>
@@ -219,8 +219,8 @@
 
   <!-- script -->
   <script>
-    // I don't know what this is
-    var config = {
+   // Chosen CSS
+   var config = {
       ".chosen-select": {},
       ".chosen-select-deselect": {
         allow_single_deselect: true
@@ -240,87 +240,61 @@
       $(selector).chosen(config[selector]);
     }
 
-
-    // validation functions
-    function userInfoValidation() {
-      if ($("#name").val() === "") {
-        alert('Please fill out your name.');
-      }
-
-      if ($("#photo").val() === "") {
-        alert('Please include a link to your photo.')
-      }
-    };
-
-    function surveyValidation() {
-      var isValid = true;
-      $(".chosen-select").each(function () {
-        if ($(this).val() === "") {
-          isValid = false;
-        }
-      });
-      return isValid;
-
-    }
-
-    // submit button 
-    var userData;
-    $('#submit').click(function () {
+    // Capture the form inputs
+    $("#submit").on("click", function(event) {
       event.preventDefault();
-      userData = {
-        name: $("#name").val(),
-        photo: $("#photo").val(),
-        scores: [
-          $("#q1").val(),
-          $("#q2").val(),
-          $("#q3").val(),
-          $("#q4").val(),
-          $("#q5").val(),
-          $("#q6").val(),
-          $("#q7").val(),
-          $("#q8").val(),
-          $("#q9").val(),
-          $("#q10").val()
-        ]
 
-      };
-
-
-      // call validation functions
-      if (!userInfoValidation() && surveyValidation()) {
-        $.post('/api/friends', userData, function (data) {
-          if (data) {
-            $("#match-name").text(data.name);
-            $("#match-img").attr("src", data.photo);
-
-            // Show the modal with the best match
-            $("#results-modal").modal("toggle");
-
-
+      // Form validation
+      function validateForm() {
+        var isValid = true;
+        $(".form-control").each(function() {
+          if ($(this).val() === "") {
+            isValid = false;
           }
-        })
+        });
 
-      } else {
-        alert('Please fill out all questions of the survey.')
+        $(".chosen-select").each(function() {
 
-      };
-      findYourBestie();
-
-
-      console.log(userData);
-
-    }); // end of submit
-
-
-   
-    function findYourBestie(num) {
-      var userTotal = 0;
-      for (i=0;i < userData.scores.length; i++){
-        userTotal = userTotal + parseInt(userData.scores[i]);
+          if ($(this).val() === "") {
+            isValid = false;
+          }
+        });
+        return isValid;
       }
 
+      // If all required fields are filled
+      if (validateForm()) {
+        // Create an object for the user"s data
+        var userData = {
+          name: $("#name").val(),
+          photo: $("#photo").val(),
+          scores: [
+            $("#q1").val(),
+            $("#q2").val(),
+            $("#q3").val(),
+            $("#q4").val(),
+            $("#q5").val(),
+            $("#q6").val(),
+            $("#q7").val(),
+            $("#q8").val(),
+            $("#q9").val(),
+            $("#q10").val()
+          ]
+        };
 
+        // AJAX post the data to the friends API.
+        $.post("/api/friends", userData, function(data) {
 
-      console.log(total);
-    }
+          // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+          $("#match-name").text(data.name);
+          $("#match-img").attr("src", data.photo);
+
+          // Show the modal with the best match
+          $("#results-modal").modal("toggle");
+
+        });
+      } else {
+        alert("Please fill out all fields before submitting!");
+      }
+    });
   </script>
